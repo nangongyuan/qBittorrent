@@ -42,3 +42,47 @@ Official IRC channel:
 
 ------------------------------------------
 sledgehammer999 \<sledgehammer999@qbittorrent.org\>
+
+
+
+
+
+
+
+# 环境配置
+
+安装VS2022
+安装vcpkg
+
+
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="E:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DVCPKG_TARGET_TRIPLET="x64-windows-static-release" -DMSVC_RUNTIME_DYNAMIC=OFF
+
+vcpkg.cmake根据目录自己修改
+-DVCPKG_TARGET_TRIPLET="x64-windows-static-release" vcpkg安装的版本，库会被安装在build/vcpkg_installed目录
+-DCMAKE_BUILD_TYPE=Release 编译release版本
+
+cmake生成vs的解决方案之后，用vs打开编译
+
+
+5>H:\qBittorrent\src\app\stacktrace.cpp(31,10): error C1083: 无法打开包括文件: “boost/stacktrace.hpp”: No such file or directory
+需要安装boost-stacktrace，在vcpkg.json中添加boost-stacktrace
+或者直接注释
+
+~~~
+#include "stacktrace.h"
+
+//#include <boost/stacktrace.hpp>
+
+std::string getStacktrace()
+{
+    //return boost::stacktrace::to_string(boost::stacktrace::stacktrace());
+    return "";
+}
+~~~
+
+
+
+qwindows.lib(qwindowsintegration.cpp.obj) : error LNK2038: 检测到“_COROUTINE_ABI”的不匹配项: 值“1”不匹配值“2”(qbt_base.lib(sessionimpl.obj) 中)
+Qt 与 STL 协程似乎存在冲突
+_ALLOW_COROUTINE_ABI_MISMATCH 预处理器变量之后，现在它可以编译了
+

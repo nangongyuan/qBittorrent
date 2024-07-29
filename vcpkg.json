@@ -1,0 +1,34 @@
+{
+  "name": "q-bittorrent",
+  "version-semver": "1.0.0",
+  "dependencies": [
+    "libtorrent",
+    "qtbase",
+    "qttools",
+    "qtsvg",
+    "boost-circular-buffer"
+  ],
+  "overrides": [
+    {
+      "name": "libtorrent",
+      "version": "2.0.10"
+    },
+    {
+      "name": "qtbase",
+      "version": "6.7.2"
+    },
+    {
+      "name": "qttools",
+      "version": "6.7.2"
+    },
+    {
+      "name": "qtsvg",
+      "version": "6.7.2"
+    },
+    {
+      "name": "boost-circular-buffer",
+      "version": "1.85.0"
+    }
+  ],
+  "builtin-baseline": "cacf5994341f27e9a14a7b8724b0634b138ecb30"
+}

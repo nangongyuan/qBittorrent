@@ -59,6 +59,9 @@ include(CommonConfig)
 # Generate version header
 configure_file("src/base/version.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/base/version.h" @ONLY)
 
+# 添加到整个项目
+add_definitions(-D_ALLOW_COROUTINE_ABI_MISMATCH)
+
 add_subdirectory(src)
 add_subdirectory(dist)
 

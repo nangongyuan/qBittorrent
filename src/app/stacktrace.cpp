@@ -28,9 +28,10 @@
 
 #include "stacktrace.h"
 
-#include <boost/stacktrace.hpp>
+//#include <boost/stacktrace.hpp>
 
 std::string getStacktrace()
 {
-    return boost::stacktrace::to_string(boost::stacktrace::stacktrace());
+    //return boost::stacktrace::to_string(boost::stacktrace::stacktrace());
+    return "";
 }

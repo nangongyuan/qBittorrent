@@ -1456,6 +1456,24 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
              </widget>
             </item>
             <item>
+             <widget class="QGroupBox" name="groupExcludedFileSize">
+              <property name="title">
+               <string>Excluded file size</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_ExcludedFileSize">
+               <item>
+                <widget class="QLineEdit" name="lineEditExcludedFileSize"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="groupMailNotification">
               <property name="title">
                <string>Email notification &amp;upon download completion</string>
