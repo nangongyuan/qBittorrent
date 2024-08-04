@@ -917,7 +917,7 @@ void AddNewTorrentDialog::setupTreeview()
     {
         // Check file name blacklist for torrents that are manually added
         QList<BitTorrent::DownloadPriority> priorities = m_contentAdaptor->filePriorities();
-        BitTorrent::Session::instance()->applyFilenameFilter(m_contentAdaptor->filePaths(), priorities);
+        BitTorrent::Session::instance()->applyFilenameFilter(m_contentAdaptor->filePaths(), torrentInfo.fileSizeList(), priorities);
         m_contentAdaptor->prioritizeFiles(priorities);
     }
 

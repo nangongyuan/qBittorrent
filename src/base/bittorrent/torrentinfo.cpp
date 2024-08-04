@@ -167,6 +167,16 @@ qlonglong TorrentInfo::fileSize(const int index) const
     return m_nativeInfo->orig_files().file_size(m_nativeIndexes[index]);
 }
 
+QList<qlonglong> TorrentInfo::fileSizeList() const
+{
+    QList<qlonglong> list;
+    list.reserve(filesCount());
+    for (int i = 0; i < filesCount(); ++i)
+        list << fileSize(i);
+
+    return list;
+}
+
 qlonglong TorrentInfo::fileOffset(const int index) const
 {
     if (!isValid()) return -1;

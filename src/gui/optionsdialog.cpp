@@ -611,6 +611,9 @@ void OptionsDialog::loadDownloadsTabOptions()
     m_ui->groupExcludedFileNames->setChecked(session->isExcludedFileNamesEnabled());
     m_ui->textExcludedFileNames->setPlainText(session->excludedFileNames().join(u'\n'));
 
+    m_ui->groupExcludedFileSize->setChecked(session->isExcludedFileNamesEnabled());
+    m_ui->lineEditExcludedFileSize->setText(QString::number(session->excludedFileSize()));
+
     m_ui->groupMailNotification->setChecked(pref->isMailNotificationEnabled());
     m_ui->senderEmailTxt->setText(pref->getMailNotificationSender());
     m_ui->lineEditDestEmail->setText(pref->getMailNotificationEmail());
@@ -762,6 +765,7 @@ void OptionsDialog::saveDownloadsTabOptions() const
 
     session->setExcludedFileNamesEnabled(m_ui->groupExcludedFileNames->isChecked());
     session->setExcludedFileNames(m_ui->textExcludedFileNames->toPlainText().split(u'\n', Qt::SkipEmptyParts));
+    session->setExcludedFileSize(m_ui->lineEditExcludedFileSize->text().toInt());
 
     pref->setMailNotificationEnabled(m_ui->groupMailNotification->isChecked());
     pref->setMailNotificationSender(m_ui->senderEmailTxt->text());

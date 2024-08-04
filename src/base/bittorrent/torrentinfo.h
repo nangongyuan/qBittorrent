@@ -69,6 +69,7 @@ namespace BitTorrent
         Path filePath(int index) const;
         PathList filePaths() const;
         qlonglong fileSize(int index) const;
+        QList<qlonglong> fileSizeList() const;
         qlonglong fileOffset(int index) const;
         PathList filesForPiece(int pieceIndex) const;
         QList<int> fileIndicesForPiece(int pieceIndex) const;

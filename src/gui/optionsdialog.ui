@@ -1458,7 +1458,7 @@ readme[0-9].txt: filter 'readme1.txt', 'readme2.txt' but not 'readme10.txt'.</st
             <item>
              <widget class="QGroupBox" name="groupExcludedFileSize">
               <property name="title">
-               <string>Excluded file size</string>
+               <string>Excluded file size(Less than or equal to MB)</string>
               </property>
               <property name="checkable">
                <bool>true</bool>

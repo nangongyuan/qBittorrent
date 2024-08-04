@@ -515,6 +515,7 @@ SessionImpl::SessionImpl(QObject *parent)
     , m_requestQueueSize(BITTORRENT_SESSION_KEY(u"RequestQueueSize"_s), 500)
     , m_isExcludedFileNamesEnabled(BITTORRENT_KEY(u"ExcludedFileNamesEnabled"_s), false)
     , m_excludedFileNames(BITTORRENT_SESSION_KEY(u"ExcludedFileNames"_s))
+    , m_excludedFileSize(BITTORRENT_SESSION_KEY(u"ExcludedFileSeize"_s), 0)
     , m_bannedIPs(u"State/BannedIPs"_s, QStringList(), Algorithm::sorted<QStringList>)
     , m_resumeDataStorageType(BITTORRENT_SESSION_KEY(u"ResumeDataStorageType"_s), ResumeDataStorageType::Legacy)
     , m_isMergeTrackersEnabled(BITTORRENT_KEY(u"MergeTrackersEnabled"_s), false)
@@ -2799,7 +2800,7 @@ bool SessionImpl::addTorrent_impl(const TorrentDescriptor &source, const AddTorr
         if (filePriorities.isEmpty() && isExcludedFileNamesEnabled())
         {
             // Check file name blacklist when priorities are not explicitly set
-            applyFilenameFilter(filePaths, filePriorities);
+            applyFilenameFilter(filePaths, torrentInfo.fileSizeList(), filePriorities);
         }
 
         const int internalFilesCount = torrentInfo.nativeInfo()->files().num_files(); // including .pad files
@@ -3886,6 +3887,19 @@ void SessionImpl::setExcludedFileNames(const QStringList &excludedFileNames)
     }
 }
 
+int SessionImpl::excludedFileSize() const
+{
+    return m_excludedFileSize;
+}
+
+void SessionImpl::setExcludedFileSize(int excludedFileSize)
+{
+    if (m_excludedFileSize != excludedFileSize)
+    {
+        m_excludedFileSize = excludedFileSize;
+    }
+}
+
 void SessionImpl::populateExcludedFileNamesRegExpList()
 {
     const QStringList excludedNames = excludedFileNames();
@@ -3901,7 +3915,7 @@ void SessionImpl::populateExcludedFileNamesRegExpList()
     }
 }
 
-void SessionImpl::applyFilenameFilter(const PathList &files, QList<DownloadPriority> &priorities)
+void SessionImpl::applyFilenameFilter(const PathList &files, const QList<qlonglong>& fileSizeList, QList<DownloadPriority> &priorities)
 {
     if (!isExcludedFileNamesEnabled())
         return;
@@ -3928,7 +3942,20 @@ void SessionImpl::applyFilenameFilter(const PathList &files, QList<DownloadPrior
             continue;
 
         if (isFilenameExcluded(files.at(i)))
+        {
             priorities[i] = BitTorrent::DownloadPriority::Ignored;
+            continue;
+        }
+            
+
+        if (files.size() == fileSizeList.size() && excludedFileSize() > 0)
+        {
+            if (fileSizeList[i] < excludedFileSize() * 1024 * 1024)
+            {
+                priorities[i] = BitTorrent::DownloadPriority::Ignored;
+                continue;
+            }
+        }
     }
 }
 
